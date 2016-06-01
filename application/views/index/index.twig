@@ -1,0 +1,10 @@
+{% extends '/layouts/basic.twig' %}
+{% block title %}user list{% endblock %}
+
+{% block content %}
+    <ul class="list-group">
+        {% for user in users.items %}
+        <li class="list-group-item">{{ user.name }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

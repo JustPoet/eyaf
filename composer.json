@@ -1,0 +1,16 @@
+{
+  "name": "andy/eyaf",
+  "description": "easy to use yaf to build project",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "zhengzean",
+      "email": "andyzheng1024@gmail.com"
+    }
+  ],
+  "require": {
+    "twig/twig": "^1.24",
+    "illuminate/database": "^5.2"
+  }
+}
