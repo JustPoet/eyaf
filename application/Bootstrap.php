@@ -18,17 +18,21 @@ class Bootstrap extends Bootstrap_Abstract
 {
     protected $config;
 
-    public function _initConfig()
+    public function _initConfig(Dispatcher $dispatcher)
     {
         Loader::import(APPLICATION_PATH . '/conf/defines.inc.php');
         $this->config = Application::app()->getConfig();
         Registry::set('config', $this->config);
+        define('REQUEST_METHOD', strtoupper($dispatcher->getRequest()->getMethod()));
     }
 
     public function _initPlugin(Dispatcher $dispatcher)
     {
         $securityPlugin = new SecurityPlugin();
         $dispatcher->registerPlugin($securityPlugin);
+
+        $authPlugin = new AuthPlugin();
+        $dispatcher->registerPlugin($authPlugin);
     }
 
     public function _initRoute(Dispatcher $dispatcher)
@@ -37,7 +41,6 @@ class Bootstrap extends Bootstrap_Abstract
 
     public function _initDatabase()
     {
-        //初始化eloquent
         $capsule = new Capsule;
         $capsule->addConnection($this->config->database->toArray());
         $capsule->setAsGlobal();
@@ -46,14 +49,20 @@ class Bootstrap extends Bootstrap_Abstract
 
     public function _initView(Dispatcher $dispatcher)
     {
-        //初始化twig
-        $twig = new TwigAdapter(APPLICATION_PATH . '/application/views', $this->config->twig->toArray());
-        $dispatcher->setView($twig);
+        if (REQUEST_METHOD !== 'CLI') {
+            $modules_names = explode(',', $this->config->application->modules);
+            $paths = [APPLICATION_PATH . '/application/views'];
+            array_walk($modules_names, function ($v) use (&$paths) {
+                if (is_dir(APPLICATION_PATH . '/application/modules/' . $v . '/views')) {
+                    array_push($paths, APPLICATION_PATH . '/application/modules/' . $v . '/views');
+                }
+            });
+            $dispatcher->setView(new TwigAdapter($paths, $this->config->twig->toArray()));
+        }
     }
 
     public function _initAutoload()
     {
-        //添加Service目录对应的命名空间
         Loader::getInstance(rtrim(APP_PATH, '/'))->registerLocalNamespace('Service');
     }
 }
