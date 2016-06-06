@@ -30,9 +30,6 @@ class Bootstrap extends Bootstrap_Abstract
     {
         $securityPlugin = new SecurityPlugin();
         $dispatcher->registerPlugin($securityPlugin);
-
-        $authPlugin = new AuthPlugin();
-        $dispatcher->registerPlugin($authPlugin);
     }
 
     public function _initRoute(Dispatcher $dispatcher)

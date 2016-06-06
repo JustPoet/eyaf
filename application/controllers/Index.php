@@ -1,11 +1,10 @@
 <?php
-use Yaf\Controller_Abstract;
 use Service\UserService;
 
 /**
  * Class IndexController
  */
-class IndexController extends Controller_Abstract
+class IndexController extends AbstractCtlr
 {
     /**
      * 分页
