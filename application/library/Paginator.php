@@ -4,7 +4,7 @@ use Illuminate\Database\Eloquent\Builder;
 /**
  * Class Paginator
  *
- * 分页
+ * Eloquent分页
  */
 trait Paginator
 {
@@ -21,6 +21,7 @@ trait Paginator
     public function paginate(Builder $builder, $perPage = null, $isAjax = false)
     {
         $total = $builder->toBase()->getCountForPagination();
+        //获取请求中的页码,这里用的是yaf,大家可以根据自己需要修改
         $page = $this->getRequest()->getQuery('page', 1);
         $perPage = $perPage ?: $builder->getModel()->getPerPage();
         $items = $builder->skip($perPage * ($page - 1) - 1)->take($perPage)->get();
