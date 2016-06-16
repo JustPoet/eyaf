@@ -5,12 +5,8 @@ use Illuminate\Database\Eloquent\Builder;
  * Paginator.php
  *
  * 分页
- *
  * 作者: zhengzean (andyzheng1024@gmail.com)
  * 创建日期: 16/6/1 上午10:32
- * 修改记录:
- *
- * $Id$
  */
 trait Paginator
 {

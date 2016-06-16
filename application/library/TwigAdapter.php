@@ -41,6 +41,7 @@ class TwigAdapter implements View_Interface
      */
     function assign($name, $value = null)
     {
+        $this->variables['server'] = $_SERVER;
         if (is_array($name)) {
             foreach ($name as $k => $v) {
                 $this->variables[$k] = $v;
