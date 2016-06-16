@@ -2,9 +2,15 @@
 use Illuminate\Database\Eloquent\Builder;
 
 /**
- * Class Paginator
+ * Paginator.php
  *
- * Eloquent分页
+ * 分页
+ *
+ * 作者: zhengzean (andyzheng1024@gmail.com)
+ * 创建日期: 16/6/1 上午10:32
+ * 修改记录:
+ *
+ * $Id$
  */
 trait Paginator
 {
@@ -15,10 +21,11 @@ trait Paginator
      * @param Builder $builder eloquent builder对象
      * @param integer $perPage 每页大小
      * @param bool    $isAjax  是否是ajax分页,如果是ajax分页,将不返回分页连接
+     * @param string  $style   分页样式
      *
      * @return array
      */
-    public function paginate(Builder $builder, $perPage = null, $isAjax = false)
+    public function paginate(Builder $builder, $perPage = null, $isAjax = false, $style = null)
     {
         $total = $builder->toBase()->getCountForPagination();
         //获取请求中的页码,这里用的是yaf,大家可以根据自己需要修改
@@ -32,7 +39,7 @@ trait Paginator
         ];
 
         if (!$isAjax) {
-            $links = $this->generateLinks($page, $totalPage);
+            $links = $this->generateLinks($page, $totalPage, $style);
             $pagenator['links'] = $links;
         }
 
@@ -45,15 +52,17 @@ trait Paginator
      * @param integer $currentPage 当前页
      * @param integer $totalPage   总页数
      *
+     * @param null    $style
+     *
      * @return string
      */
-    public function generateLinks($currentPage, $totalPage)
+    public function generateLinks($currentPage, $totalPage, $style = null)
     {
         $html = '<ul class="pagination">';
         if ($currentPage == 1) {
             $html .= "<li class=\"disabled\"><a href=\"javascript:void(0)\">&laquo;</a></li>";
         } else {
-            $html .= "<li><a href=\"?page=". ($currentPage - 1) ."\">&laquo;</a></li>";
+            $html .= "<li><a href=\"?page=" . ($currentPage - 1) . "\">&laquo;</a></li>";
         }
         if ($totalPage < 10) {
             for ($i = 1; $i <= $totalPage; $i++) {
@@ -85,9 +94,13 @@ trait Paginator
         if ($currentPage == $totalPage) {
             $html .= "<li class=\"disabled\"><a href=\"javascript:void(0)\">&raquo;</a></li>";
         } else {
-            $html .= "<li><a href=\"?page=". ($currentPage + 1) ."\">&raquo;</a></li>";
+            $html .= "<li><a href=\"?page=" . ($currentPage + 1) . "\">&raquo;</a></li>";
         }
-        return $html .= '</ul>';
+
+        if ($style) {
+            $html = '<div '.$style.'>'.$html .'</div></ul>';
+        }
+        return $html;
     }
 
 }
