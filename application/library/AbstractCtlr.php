@@ -12,7 +12,8 @@ abstract class AbstractCtlr extends Controller_Abstract
      * @param $out
      * @return string | NULL
      */
-    public function out($out) {
+    public function out($out)
+    {
         $response = $this->getResponse();
         $outBody = json_encode($out);
         $response->setHeader('Content-type', 'application/json;charset=utf8');

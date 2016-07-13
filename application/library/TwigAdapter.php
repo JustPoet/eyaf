@@ -39,9 +39,10 @@ class TwigAdapter implements View_Interface
      *
      * @return bool
      */
-    function assign($name, $value = null)
+    public function assign($name, $value = null)
     {
         $this->variables['server'] = $_SERVER;
+        $this->variables['session'] = $_SESSION;
         if (is_array($name)) {
             foreach ($name as $k => $v) {
                 $this->variables[$k] = $v;
@@ -61,7 +62,7 @@ class TwigAdapter implements View_Interface
      *
      * @return bool
      */
-    function display($tpl, $tpl_vars = null)
+    public function display($tpl, $tpl_vars = null)
     {
         echo $this->render($tpl, $tpl_vars);
     }
@@ -71,7 +72,7 @@ class TwigAdapter implements View_Interface
      *
      * @return string
      */
-    function getScriptPath()
+    public function getScriptPath()
     {
         $paths = $this->loader->getPaths();
 
@@ -88,7 +89,7 @@ class TwigAdapter implements View_Interface
      *
      * @return string
      */
-    function render($tpl, $tpl_vars = null)
+    public function render($tpl, $tpl_vars = null)
     {
         if (is_array($tpl_vars)) {
             $this->variables = array_merge($this->variables, $tpl_vars);
@@ -105,7 +106,7 @@ class TwigAdapter implements View_Interface
      * @param string $template_dir An absolute path to the template directory, by default, Yaf_Dispatcher use
      *                             application.directory . "/views" as this parameter.
      */
-    function setScriptPath($template_dir)
+    public function setScriptPath($template_dir)
     {
         $this->loader->setPaths($template_dir);
     }
