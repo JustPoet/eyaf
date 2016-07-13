@@ -27,11 +27,11 @@ trait Paginator
         //获取请求中的页码,这里用的是yaf,大家可以根据自己需要修改
         $page = $this->getRequest()->getQuery('page', 1);
         $perPage = $perPage ?: $builder->getModel()->getPerPage();
-        $items = $builder->skip($perPage * ($page - 1) - 1)->take($perPage)->get();
+        $items = $builder->skip($perPage * ($page - 1))->take($perPage)->get();
         $totalPage = $total % $perPage == 0 ? $total / $perPage : intval($total / $perPage) + 1;
         $pagenator = [
-            'items'     => $items,
-            'totalPage' => $totalPage
+            'items' => $items,
+            'totalPage' => $totalPage,
         ];
 
         if (!$isAjax) {
@@ -94,7 +94,7 @@ trait Paginator
         }
 
         if ($style) {
-            $html = '<div '.$style.'>'.$html .'</div></ul>';
+            $html = '<div ' . $style . '>' . $html . '</div></ul>';
         }
         return $html;
     }

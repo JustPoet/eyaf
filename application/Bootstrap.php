@@ -1,10 +1,10 @@
 <?php
 use Illuminate\Database\Capsule\Manager as Capsule;
-use Yaf\Bootstrap_Abstract;
 use Yaf\Application;
-use Yaf\Registry;
-use Yaf\Loader;
+use Yaf\Bootstrap_Abstract;
 use Yaf\Dispatcher;
+use Yaf\Loader;
+use Yaf\Registry;
 
 /**
  * @name Bootstrap
