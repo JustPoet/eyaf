@@ -30,6 +30,11 @@ class Bootstrap extends Bootstrap_Abstract
     {
         $securityPlugin = new SecurityPlugin();
         $dispatcher->registerPlugin($securityPlugin);
+
+        if (ini_get('yaf.environ') != 'online') {
+            $queryLogPlugin = new QuerylogPlugin();
+            $dispatcher->registerPlugin($queryLogPlugin);
+        }
     }
 
     public function _initRoute(Dispatcher $dispatcher)
@@ -42,6 +47,10 @@ class Bootstrap extends Bootstrap_Abstract
         $capsule->addConnection($this->config->database->toArray());
         $capsule->setAsGlobal();
         $capsule->bootEloquent();
+
+        if (ini_get('yaf.environ') != 'online') {
+            $capsule->getConnection()->enableQueryLog();
+        }
     }
 
     public function _initView(Dispatcher $dispatcher)

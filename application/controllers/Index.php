@@ -21,7 +21,7 @@ class IndexController extends AbstractCtlr
 
     public function getUsersAction()
     {
-        $users = $this->paginate(UserModel::orderBy('updated_at','desc'));
+        $users = $this->paginate(UserModel::orderBy('updated_at', 'desc'));
         $this->getView()->assign("users", $users);
         return true;
     }
