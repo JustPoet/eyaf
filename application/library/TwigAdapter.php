@@ -41,10 +41,6 @@ class TwigAdapter implements View_Interface
      */
     public function assign($name, $value = null)
     {
-        $this->variables['server'] = $_SERVER;
-        if (!empty($_SESSION)) {
-            $this->variables['session'] = $_SESSION;
-        }
         if (is_array($name)) {
             foreach ($name as $k => $v) {
                 $this->variables[$k] = $v;
@@ -93,6 +89,8 @@ class TwigAdapter implements View_Interface
      */
     public function render($tpl, $tpl_vars = null)
     {
+        $this->loadSystemdata();
+
         if (is_array($tpl_vars)) {
             $this->variables = array_merge($this->variables, $tpl_vars);
         }
@@ -150,4 +148,11 @@ class TwigAdapter implements View_Interface
         return isset($this->variables[$name]);
     }
 
+    private function loadSystemdata()
+    {
+        $this->variables['server'] = $_SERVER;
+        if (!empty($_SESSION)) {
+            $this->variables['session'] = $_SESSION;
+        }
+    }
 }
